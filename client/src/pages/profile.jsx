@@ -19,6 +19,8 @@ import {
   updateUserStart,
   updateUserSuccess,
 } from "../redux/user/userSlice";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const Profile = () => {
   const fileRef = useRef(null);
@@ -45,9 +47,10 @@ const Profile = () => {
       },
       (error) => setFileUploadError(true),
       () =>
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
-          setFormData((data) => ({ ...data, avatar: downloadURL }))
-        )
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setFormData((data) => ({ ...data, avatar: downloadURL }));
+          setFilePerc(0);
+        })
     );
   };
 
@@ -124,12 +127,34 @@ const Profile = () => {
           accept="image/*"
           onChange={(e) => setFile(e.target.files[0])}
         />
-        <img
-          src={formData.avatar || currentUser.avatar}
-          alt="Profile Avatar"
+        <div
           onClick={() => fileRef.current.click()}
-          className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
-        />
+          className="relative self-center cursor-pointer h-28 w-28 overflow-hidden rounded-full shadow-md"
+        >
+          {filePerc > 0 && (
+            <CircularProgressbar
+              value={filePerc || 0}
+              text={`${filePerc}%`}
+              strokeWidth={5}
+              styles={{
+                root: {
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                },
+              }}
+            />
+          )}
+          <img
+            src={formData.avatar || currentUser.avatar}
+            alt="Profile Avatar"
+            className={`rounded-full object-cover w-full h-full border-8 ${
+              filePerc > 0 && filePerc < 100 && "opacity-60"
+            }`}
+          />
+        </div>
         <p className="text-sm self-center">
           {fileUploadError ? (
             <span className="text-red-700">
