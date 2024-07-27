@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Router, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home";
 import SignIn from "./pages/sign-in";
 import SignUp from "./pages/sign-up";
@@ -7,6 +7,7 @@ import Profile from "./pages/profile";
 import Header from "./components/header";
 import PrivateRoute from "./components/private-route";
 import CreateListing from "./pages/create-listing";
+import UpdateListing from "./pages/update-listing";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />} />
+          <Route
+            path="/update-listing/:listingId"
+            element={<UpdateListing />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
