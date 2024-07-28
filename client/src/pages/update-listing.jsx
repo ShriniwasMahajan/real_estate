@@ -12,7 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const UpdateListing = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const params = useParams();
+  const { listingId } = useParams();
 
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
@@ -120,7 +120,7 @@ const UpdateListing = () => {
       setLoading(true);
       setError(null);
 
-      const res = await fetch(`/api/listing/update/${params.listingId}`, {
+      const res = await fetch(`/api/listing/update/${listingId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -135,7 +135,7 @@ const UpdateListing = () => {
       setLoading(false);
       if (data.success === false) setError(data.message);
 
-      navigate(`/listing/${data._id}`);
+      navigate(`/listings/${data._id}`);
     } catch (err) {
       setError(err.message);
       setLoading(false);
@@ -144,7 +144,6 @@ const UpdateListing = () => {
 
   useEffect(() => {
     const fetchListing = async () => {
-      const listingId = params.listingId;
       const res = await fetch(`/api/listing/get/${listingId}`);
       const data = await res.json();
 
