@@ -189,7 +189,7 @@ const Profile = () => {
           <img
             src={formData.avatar || currentUser.avatar}
             alt="Profile Avatar"
-            className={`rounded-full object-cover w-full h-full border-8 ${
+            className={`rounded-full object-cover w-full h-full border-8 flex items-center justify-center ${
               filePerc > 0 && filePerc < 100 && "opacity-60"
             }`}
           />
@@ -255,12 +255,14 @@ const Profile = () => {
         </span>
       </div>
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
-      <p className="text-green-700 mt-5">
+      <p className="text-green-700 my-5">
         {updateSuccess ? "User is updated successfully!" : ""}
       </p>
-      <button onClick={handleShowListings} className="text-green-700 w-full">
-        Show Listings
-      </button>
+      {userListings?.length > 0 && (
+        <button onClick={handleShowListings} className="text-green-700 w-full">
+          Show Listings
+        </button>
+      )}
       <p className="text-red-700 mt-5">
         {showListingsError ? "Error showing listings" : ""}
       </p>

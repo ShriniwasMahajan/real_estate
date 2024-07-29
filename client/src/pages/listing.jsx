@@ -12,15 +12,19 @@ import {
   FaParking,
   FaShare,
 } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import Contact from "../components/contact";
 
 const Listing = () => {
   const { listingId } = useParams();
+  const { currentUser } = useSelector((state) => state.user);
   SwiperCore.use([Navigation]);
 
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [contact, setContact] = useState(false);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -69,12 +73,12 @@ const Listing = () => {
             ))}
           </Swiper>
           <div
-            className="fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer"
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
               setCopied(true);
               setTimeout(() => setCopied(false), 2000);
             }}
+            className="fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer"
           >
             <FaShare className="text-slate-500" />
           </div>
@@ -83,7 +87,7 @@ const Listing = () => {
               Link copied!
             </p>
           )}
-          <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
+          <div className="flex flex-col max-w-4xl mx-auto p-3 my-5 gap-4">
             <p className="text-2xl font-semibold">
               {listing.name} - ₹
               {listing.offer
@@ -91,7 +95,7 @@ const Listing = () => {
                 : listing.regularPrice.toLocaleString("hi")}
               {listing.type === "rent" && " / month"}
             </p>
-            <p className="flex items-center mt-6 gap-2 text-slate-600 text-sm">
+            <p className="flex items-center mt-4 gap-2 text-slate-600 text-sm">
               <FaMapMarkerAlt className="text-green-700" />
               {listing.address}
             </p>
@@ -127,6 +131,15 @@ const Listing = () => {
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
+            {currentUser && listing.userRef !== currentUser._id && !contact && (
+              <button
+                onClick={() => setContact(true)}
+                className="bg-slate-700 text-white uppercase rounded-lg hover:opacity-95 p-3"
+              >
+                Contact Landlord
+              </button>
+            )}
+            {contact && <Contact listing={listing} />}
           </div>
         </div>
       )}
