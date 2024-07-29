@@ -277,7 +277,6 @@ const UpdateListing = () => {
                 type="number"
                 id="regularPrice"
                 min="50"
-                max={1e7}
                 required
                 onChange={handleChange}
                 value={formData.regularPrice}
@@ -288,7 +287,9 @@ const UpdateListing = () => {
                 className="flex flex-col items-center"
               >
                 <p>Regular Price</p>
-                <span className="text-xs">($ / month)</span>
+                {formData.type === "rent" && (
+                  <span className="text-xs">(₹ / month)</span>
+                )}
               </label>
             </div>
             {formData.offer && (
@@ -297,7 +298,6 @@ const UpdateListing = () => {
                   type="number"
                   id="discountPrice"
                   min="0"
-                  max={1e7}
                   required
                   onChange={handleChange}
                   value={formData.discountPrice}
@@ -308,7 +308,9 @@ const UpdateListing = () => {
                   className="flex flex-col items-center"
                 >
                   <p>Discounted Price</p>
-                  <span className="text-xs">($ / month)</span>
+                  {formData.type === "rent" && (
+                    <span className="text-xs">(₹ / month)</span>
+                  )}
                 </label>
               </div>
             )}
