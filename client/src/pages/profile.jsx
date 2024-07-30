@@ -31,7 +31,7 @@ const Profile = () => {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
-  const [userListings, setUserListings] = useState([]);
+  const [userListings, setUserListings] = useState(null);
   const dispatch = useDispatch();
 
   const handleFileUpload = (file) => {
@@ -54,6 +54,8 @@ const Profile = () => {
           setFilePerc(0);
         })
     );
+
+    setFileUploadError(false);
   };
 
   const handleChange = (e) =>
@@ -170,7 +172,7 @@ const Profile = () => {
           onClick={() => fileRef.current.click()}
           className="relative self-center cursor-pointer h-32 w-32 overflow-hidden rounded-full shadow-md"
         >
-          {filePerc > 0 && (
+          {filePerc > 0 && filePerc < 100 && (
             <CircularProgressbar
               value={filePerc || 0}
               text={`${filePerc}%`}
@@ -200,7 +202,7 @@ const Profile = () => {
               Image Upload Error (Image must be less than 2 MBs)
             </span>
           ) : 0 < filePerc && filePerc < 100 ? (
-            <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
+            <span className="text-slate-700">{`Uploading... ${filePerc}%`}</span>
           ) : filePerc === 100 ? (
             <span className="text-green-700">Image Successfully Uploaded!</span>
           ) : (
@@ -255,10 +257,10 @@ const Profile = () => {
         </span>
       </div>
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
-      <p className="text-green-700 my-5">
+      <p className="text-green-700 my-5 text-center">
         {updateSuccess ? "User is updated successfully!" : ""}
       </p>
-      {userListings?.length > 0 && (
+      {!userListings && (
         <button onClick={handleShowListings} className="text-green-700 w-full">
           Show Listings
         </button>
@@ -266,44 +268,47 @@ const Profile = () => {
       <p className="text-red-700 mt-5">
         {showListingsError ? "Error showing listings" : ""}
       </p>
-      {userListings?.length > 0 && (
-        <div className="flex flex-col gap-4">
-          <h1 className="text-center mt-7 text-2xl font-semibold">
-            Your Listings
-          </h1>
-          {userListings.map((listing) => (
-            <div
-              key={listing._id}
-              className="border rounded-lg p-3 flex justify-between items-center gap-4"
-            >
-              <Link to={`/listings/${listing._id}`}>
-                <img
-                  src={listing.imageUrls[0]}
-                  alt="listing cover"
-                  className="h-16 w-16 object-contain"
-                />
-              </Link>
-              <Link
-                to={`/listings/${listing._id}`}
-                className="text-slate-700 font-semibold flex-1 hover:underline truncate"
+      {userListings &&
+        (userListings.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            <h1 className="text-center mt-7 text-2xl font-semibold">
+              Your Listings
+            </h1>
+            {userListings.map((listing) => (
+              <div
+                key={listing._id}
+                className="border rounded-lg p-3 flex justify-between items-center gap-4"
               >
-                <p>{listing.name}</p>
-              </Link>
-              <div className="flex flex-col items-center">
-                <button
-                  onClick={() => handleListingDelete(listing._id)}
-                  className="text-red-700 uppercase"
-                >
-                  Delete
-                </button>
-                <Link to={`/update-listing/${listing._id}`}>
-                  <button className="text-green-700 uppercase">Edit</button>
+                <Link to={`/listings/${listing._id}`}>
+                  <img
+                    src={listing.imageUrls[0]}
+                    alt="listing cover"
+                    className="h-16 w-16 object-contain"
+                  />
                 </Link>
+                <Link
+                  to={`/listings/${listing._id}`}
+                  className="text-slate-700 font-semibold flex-1 hover:underline truncate"
+                >
+                  <p>{listing.name}</p>
+                </Link>
+                <div className="flex flex-col items-center">
+                  <button
+                    onClick={() => handleListingDelete(listing._id)}
+                    className="text-red-700 uppercase"
+                  >
+                    Delete
+                  </button>
+                  <Link to={`/update-listing/${listing._id}`}>
+                    <button className="text-green-700 uppercase">Edit</button>
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-sm">No Listings to Show</p>
+        ))}
     </div>
   );
 };
