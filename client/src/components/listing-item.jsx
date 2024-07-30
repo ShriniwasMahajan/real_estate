@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
+import { FaBath, FaBed } from "react-icons/fa";
 
 const ListingItem = ({ listing }) => {
   return (
@@ -15,7 +16,7 @@ const ListingItem = ({ listing }) => {
             {listing.name}
           </p>
           <div className="flex items-center gap-1">
-            <MdLocationOn className="h-4 w-4 text-green-700" />
+            <MdLocationOn className="text-green-700" />
             <p className="text-sm text-gray-600 truncate w-full">
               {listing.address}
             </p>
@@ -31,12 +32,18 @@ const ListingItem = ({ listing }) => {
             ).toLocaleString("hi")}
             {listing.type === "rent" && " / month"}
           </p>
-          <div className="text-slate-700 flex gap-4">
-            <div className="font-bold text-xs">
-              {listing.bedrooms} {listing.bedrooms > 1 ? "beds" : "bed"}
+          <div className="text-slate-700 flex flex-wrap gap-4">
+            <div className="flex gap-2">
+              <FaBed className="text-green-700" />
+              <p className="font-bold text-xs">
+                {listing.bedrooms} {listing.bedrooms > 1 ? "beds" : "bed"}
+              </p>
             </div>
-            <div className="font-bold text-xs">
-              {listing.bathrooms} {listing.bathrooms > 1 ? "baths" : "bath"}
+            <div className="flex gap-2">
+              <FaBath className="text-green-700" />
+              <p className="font-bold text-xs">
+                {listing.bathrooms} {listing.bathrooms > 1 ? "baths" : "bath"}
+              </p>
             </div>
           </div>
         </div>
