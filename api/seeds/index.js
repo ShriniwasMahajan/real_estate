@@ -6,6 +6,7 @@ import { descriptors, places } from "./titles.js";
 import images from "./images.js";
 import Listing from "../models/listing.model.js";
 import User from "../models/user.model.js";
+import bcryptjs from "bcryptjs";
 
 dotenv.config({ path: "../.env" });
 
@@ -79,7 +80,9 @@ const seedDB = async () => {
   await Listing.deleteMany({});
 
   for (let i = 0; i < 10; i++) {
-    const user = new User(users[i]);
+    const { username, email, password } = users[i];
+    const hashedPassword = bcryptjs.hashSync(password, 12);
+    const user = new User({ username, email, password: hashedPassword });
     await user
       .save()
       .then((saved) => userIds.push(saved._id))
