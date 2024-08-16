@@ -59,7 +59,7 @@ const Listing = () => {
       )}
       {listing && !loading && !error && (
         <div>
-          <Swiper navigation>
+          <Swiper navigation loop={true}>
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
                 <div

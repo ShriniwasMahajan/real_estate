@@ -71,13 +71,12 @@ const Home = () => {
           Let's start now...
         </Link>
       </div>
-      <Swiper navigation>
+      <Swiper navigation loop={true}>
         {offerListings &&
           offerListings.length > 0 &&
           offerListings.map((listing) => (
-            <SwiperSlide>
+            <SwiperSlide key={listing._id}>
               <div
-                key={listing._id}
                 style={{
                   background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgroundSize: "cover",
