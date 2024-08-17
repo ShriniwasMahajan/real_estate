@@ -12,12 +12,14 @@ import {
   FaParking,
   FaShare,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Contact from "../components/contact";
 
 const Listing = () => {
   const { listingId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   SwiperCore.use([Navigation]);
 
   const [listing, setListing] = useState(null);
@@ -25,6 +27,11 @@ const Listing = () => {
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
+
+  const buttonClick = () => {
+    if (!currentUser) navigate("/sign-in");
+    else setContact(true);
+  };
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -136,9 +143,9 @@ const Listing = () => {
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
-            {currentUser && listing.userRef !== currentUser._id && !contact && (
+            {listing.userRef !== currentUser?._id && !contact && (
               <button
-                onClick={() => setContact(true)}
+                onClick={buttonClick}
                 className="bg-slate-700 text-white uppercase rounded-lg hover:opacity-95 p-3"
               >
                 Contact Landlord

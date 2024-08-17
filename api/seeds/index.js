@@ -91,9 +91,14 @@ const seedDB = async () => {
 
   for (let i = 0; i < 175; i++) {
     const cityIdx = randomIdx(0, cities.length);
-    const address = `${cities[cityIdx].city}, ${cities[cityIdx].state}`;
     const tier = cities[cityIdx].tier;
     const name = `${random(descriptors)} ${random(places)}`;
+
+    const address = `${cities[cityIdx].city}, ${cities[cityIdx].state}`;
+    const geometry = {
+      type: "Point",
+      coordinates: [cities[cityIdx].lng, cities[cityIdx].lat],
+    };
 
     const userRef = random(userIds);
     const bedrooms = randomIdx(1, 11);
@@ -119,7 +124,7 @@ const seedDB = async () => {
       parking,
       type
     );
-    const discountPrice = regularPrice * 0.9;
+    const discountPrice = regularPrice * 0.95;
 
     const numImg = randomIdx(1, 7);
     const imageUrls = assignImages(numImg);
@@ -128,6 +133,7 @@ const seedDB = async () => {
       name,
       description,
       address,
+      geometry,
       regularPrice,
       discountPrice,
       bathrooms,
