@@ -9,10 +9,12 @@ This is a full-stack real estate website built with the MERN stack (MongoDB, Exp
 - **Listing Management**: Create, update, and delete property listings.
 - **Stylish UI**: The interface is designed with React and styled using Tailwind CSS, providing a responsive layout for various screen sizes and proper feedback for various interactions.
 - **Advanced Search and Sorting**: Search functionality with sorting options based on price and creation date (ascending and descending).
+- **Mapbox Integration**: Developed a Mapbox cluster map on the home page, displaying all listings with three view options for interactive data visualization.
 - **Property Listings**: Each listing includes detailed information such as:
 
   - **Name**: Property name
   - **Address**: Location of the property
+  - **Geometry**: Longitude and latitude
   - **Price**: Listing price
   - **Discount**: Any applicable discounts
   - **Number of Beds**: Total number of bedrooms
