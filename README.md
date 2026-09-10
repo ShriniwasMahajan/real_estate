@@ -24,12 +24,13 @@ This is a full-stack real estate website built with the MERN stack (MongoDB, Exp
   - **Landlord Details**: Information about the landlord
 
 ## Technologies Used
-- **Frontend**: React.js, Redux, Tailwind CSS
+- **Frontend**: React.js, Redux Toolkit, redux-persist, Tailwind CSS, Vite, React Router
 - **Backend**: Node.js, Express.js
-- **Database**: MongoDB
+- **Database**: MongoDB, Mongoose
 - **Authentication**: Google Sign-In, JWT
 - **Password Hashing**: bcrypt
 - **Storage**: Firebase
+- **Maps**: Mapbox (cluster map, forward geocoding)
 
 ## Setup
 
